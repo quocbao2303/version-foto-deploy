@@ -1,0 +1,24 @@
+services:
+  - type: web
+    name: version-foto
+    runtime: static
+    repo: https://github.com/quocbao2303/version-foto-deploy
+    branch: main
+    autoDeployTrigger: off
+    buildCommand: "true"
+    staticPublishPath: ./public
+    envVars:
+      - key: SKIP_INSTALL_DEPS
+        value: "true"
+    routes:
+      # Render serves existing files first. Only missing URLs reach this rule.
+      - type: redirect
+        source: /*
+        destination: /
+    headers:
+      - path: /*
+        name: X-Content-Type-Options
+        value: nosniff
+      - path: /*
+        name: Referrer-Policy
+        value: strict-origin-when-cross-origin
